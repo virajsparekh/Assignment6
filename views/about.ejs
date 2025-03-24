@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('partials/_head', { title: 'About' }) %>
+</head>
+<body>
+    <%- include('partials/_navbar', { activePage }) %>
+
+    <main class="container mt-5">
+            <h1 class="mb-4 about-heading-box">About</h1>
+        
+        <section class="mb-5">
+            <h2>Theme Demo</h2>
+            <p>This section demonstrates various HTML elements styled with our custom theme.</p>
+
+            <div class="mb-5">
+                <h3>Product Inventory</h3>
+                <table class="table">
+                    <caption>Current Stock Overview</caption>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Product</th>
+                            <th>Price</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% [1, 2].forEach(i => { %>
+                        <tr>
+                            <td rowspan="2">Lego <%= i === 1 ? 'Classic' : 'Technic' %></td>
+                            <td>SKU <%= 10000 + i %></td>
+                            <td>$<%= i === 1 ? '49.99' : '59.99' %></td>
+                            <td rowspan="2">Warehouse <%= i === 1 ? 'A' : 'B'%></td>
+                        </tr>
+                        <tr class="<%= i % 2 === 0 ? 'alternate-row' : '' %>">
+                            <td>SKU <%= 20000 + i %></td>
+                            <td>$<%= i === 1 ? '39.99' : '49.99' %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">Total Products</td>
+                            <td>4</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="mb-5">
+                <h3>Collection Categories</h3>
+                <ol class="list-group">
+                    <% ['Technic', 'City', 'Star Wars'].forEach((category, index) => { %>
+                    <li class="list-group-item">
+                        <%= category %>
+                        <% if(index === 0) { %>
+                        <ul class="mt-2">
+                            <% ['Construction', 'Vehicles', 'Robotics'].forEach(sub => { %>
+                            <li><%= sub %></li>
+                            <% }) %>
+                        </ul>
+                        <% } %>
+                    </li>
+                    <% }) %>
+                </ol>
+            </div>
+
+            <div class="mb-5">
+                <h3>Featured Sets</h3>
+                <div class="row">
+                    <% 
+                    const images = [
+                        'https://upload.wikimedia.org/wikipedia/commons/3/32/Lego_Color_Bricks.jpg',
+                        'https://upload.wikimedia.org/wikipedia/commons/a/a8/Lego_Technic_Red_Car_%2842491444060%29.jpg',
+                        'https://upload.wikimedia.org/wikipedia/commons/2/22/Lego_Technic_8865_Test_Car_%282066401781%29.jpg'
+                    ];
+                    images.forEach(img => { %>
+                    <div class="col-md-4 mb-4">
+                        <img src="<%= img %>" 
+                             alt="Lego set" 
+                             class="img-fluid img-thumbnail featured-img">
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Building Guide</h3>
+                        <audio controls class="w-100">
+                            <source src="https://pat-crawford-sdds.netlify.app/shared/winter-2025/web700/A4/sample-audio.mp3">
+                        </audio>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>Assembly Demo</h3>
+                        <video controls class="w-100">
+                            <source src="https://pat-crawford-sdds.netlify.app/shared/winter-2025/web700/A4/sample-video.mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

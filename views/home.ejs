@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('partials/_head', { title: 'Home' }) %>
+</head>
+<body>
+    <%- include('partials/_navbar', { activePage }) %>
+
+    <main class="container mt-5">
+        <section class="jumbotron text-center">
+            <h1 class="display-4">Welcome to Lego Collection</h1>
+            <p class="lead">Discover and explore our extensive collection of Lego sets</p>
+            <a href="/lego/sets" class="btn btn-primary btn-lg">Browse Collection</a>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('partials/_head', { title: currentTheme + ' Sets' }) %>
+</head>
+<body>
+    <%- include('partials/_navbar', { activePage: 'sets' }) %>
+
+    <main class="container mt-5">
+        <h1 class="mb-4 about-heading-box"><%= currentTheme %></h1>
+        
+        <div class="theme-filter mb-4">
+            <h5>Filter by Theme:</h5>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/lego/sets" 
+                   class="btn <%= currentTheme === 'All Sets' ? 'btn-primary' : 'btn-outline-secondary' %>">
+                    All Sets
+                </a>
+                <% if (availableThemes && availableThemes.length) { %>
+                    <% availableThemes.forEach(theme => { %>
+                        <% if (theme !== 'All Sets') { %>
+                            <a href="/lego/sets?theme=<%= theme %>" 
+                               class="btn <%= currentTheme === theme ? 'btn-primary' : 'btn-outline-secondary' %>">
+                                <%= theme %>
+                            </a>
+                        <% } %>
+                    <% }) %>
+                <% } %>
+            </div>
+        </div>
+
+        <% if (sets && sets.length > 0) { %>
+            <div class="row">
+                <% sets.forEach(set => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="rounded" 
+                             style="height: 200px; background-image: url('<%= set.img_url %>'); 
+                                    background-size: cover; background-position: center;">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><%= set.name %></h5>
+                            <p class="card-text">
+                                <strong>Theme:</strong> <%= set.theme %><br>
+                                <strong>Year:</strong> <%= set.year %><br>
+                                <strong>Parts:</strong> <%= set.num_parts %>
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="/lego/sets/<%= set.set_num %>" 
+                               class="btn btn-primary me-2">
+                                View Details
+                            </a>
+                            <a href="/lego/sets?theme=<%= set.theme %>" 
+                               class="btn btn-outline-secondary">
+                                More <%= set.theme %>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning">No sets found matching your criteria</div>
+        <% } %>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
