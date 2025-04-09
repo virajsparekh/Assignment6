@@ -94,7 +94,6 @@ app.post("/lego/addSet", async (req, res) => {
     try {
         const formData = req.body;
         
-        // Convert theme_id to integer safely
         const themeId = formData.theme_id ? parseInt(formData.theme_id) : null;
         
         if (!themeId || isNaN(themeId)) {
@@ -161,7 +160,6 @@ app.use((req, res) => {
     });
 });
 
-// Initialize database connection
 legoData.initialize().then(() => {
     app.listen(HTTP_PORT, () => 
         console.log(`Server listening on: http://localhost:${HTTP_PORT}`));
