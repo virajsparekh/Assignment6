@@ -12,20 +12,12 @@
         <div class="theme-filter mb-4">
             <h5>Filter by Theme:</h5>
             <div class="d-flex flex-wrap gap-2">
-                <a href="/lego/sets" 
-                   class="btn <%= currentTheme === 'All Sets' ? 'btn-primary' : 'btn-outline-secondary' %>">
-                    All Sets
-                </a>
-                <% if (availableThemes && availableThemes.length) { %>
-                    <% availableThemes.forEach(theme => { %>
-                        <% if (theme !== 'All Sets') { %>
-                            <a href="/lego/sets?theme=<%= theme %>" 
-                               class="btn <%= currentTheme === theme ? 'btn-primary' : 'btn-outline-secondary' %>">
-                                <%= theme %>
-                            </a>
-                        <% } %>
-                    <% }) %>
-                <% } %>
+                <% availableThemes.forEach(theme => { %>
+                    <a href="/lego/sets?theme=<%= theme %>" 
+                       class="btn <%= currentTheme === theme ? 'btn-primary' : 'btn-outline-secondary' %>">
+                        <%= theme %>
+                    </a>
+                <% }) %>
             </div>
         </div>
 

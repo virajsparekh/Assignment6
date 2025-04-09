@@ -7,7 +7,7 @@
 </head>
 <body>
     <%- include('partials/_navbar', { activePage: 'sets' }) %>
-
+    
     <main class="container my-5 set-details-animate">
         <!-- Header Section -->
         <div class="set-header">
@@ -16,8 +16,8 @@
                 <span class="badge bg-primary">
                     <i class="bi bi-calendar"></i> <%= set.year %>
                 </span>
-                <a href="/lego/sets?theme=<%= set.theme %>" class="theme-badge">
-                    <i class="bi bi-tags"></i> <%= set.theme %>
+                <a href="/lego/sets?theme=<%= set.Theme.name %>" class="theme-badge">
+                    <i class="bi bi-tags"></i> <%= set.Theme.name %>
                 </a>
                 <span class="part-count">
                     <i class="bi bi-puzzle"></i> <%= set.num_parts %> parts
@@ -25,15 +25,20 @@
             </div>
         </div>
 
+        <!-- Random Quote Section -->
+        <div class="quote-box mb-4 p-3 bg-light rounded">
+            <span id="quote" class="fst-italic"></span>
+        </div>
+
         <div class="row g-4">
             <!-- Image Column -->
             <div class="col-lg-6">
                 <div class="set-image-container">
                     <% if(set.img_url) { %>
-                        <img src="<%= set.img_url %>" alt="<%= set.name %>">
+                        <img src="<%= set.img_url %>" alt="<%= set.name %>" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
                     <% } else { %>
-                        <div class="img-placeholder">
-                            <span>No Image Available</span>
+                        <div class="img-placeholder d-flex align-items-center justify-content-center h-100">
+                            <span class="text-muted">No Image Available</span>
                         </div>
                     <% } %>
                 </div>
@@ -41,9 +46,8 @@
 
             <!-- Details Column -->
             <div class="col-lg-6">
-                <div class="detail-card">
+                <div class="detail-card h-100">
                     <h3><i class="bi bi-info-circle"></i> Set Details</h3>
-                    
                     <table class="detail-table">
                         <tbody>
                             <tr>
@@ -57,8 +61,8 @@
                             <tr>
                                 <th>Theme</th>
                                 <td>
-                                    <a href="/lego/sets?theme=<%= set.theme %>" class="theme-badge">
-                                        <i class="bi bi-collection"></i> <%= set.theme %>
+                                    <a href="/lego/sets?theme=<%= set.Theme.name %>" class="theme-badge">
+                                        <i class="bi bi-collection"></i> <%= set.Theme.name %>
                                     </a>
                                 </td>
                             </tr>
@@ -74,24 +78,19 @@
                                     <i class="bi bi-puzzle"></i> <%= set.num_parts %>
                                 </td>
                             </tr>
-                            <% if(set.notes) { %>
-                            <tr>
-                                <th>Notes</th>
-                                <td><%= set.notes %></td>
-                            </tr>
-                            <% } %>
                         </tbody>
                     </table>
 
-                    <div class="action-buttons">
-                        <form action="/lego/deleteSet/<%= set.set_num %>" method="POST">
-                            <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Permanently delete this set?')">
-                                <i class="bi bi-trash3"></i> Delete
+                    <!-- Action Buttons -->
+                    <div class="action-buttons mt-4 d-flex gap-2">
+                        <form action="/lego/deleteSet/<%= set.set_num %>" method="POST" class="flex-grow-1">
+                            <button type="submit" class="btn btn-danger w-100"
+                                onclick="return confirm('Permanently delete this set?')">
+                                <i class="bi bi-trash3"></i> Delete Set
                             </button>
                         </form>
-                        <a href="/lego/sets" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left"></i> Back
+                        <a href="/lego/sets" class="btn btn-outline-secondary flex-grow-1">
+                            <i class="bi bi-arrow-left"></i> Return
                         </a>
                     </div>
                 </div>
@@ -99,6 +98,34 @@
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Random Quote Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const quoteElement = document.getElementById('quote');
+            // Set default loading message
+            quoteElement.innerHTML = 'Loading inspirational quote...';
+            
+            fetch("https://dummyjson.com/quotes/random")
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch quote');
+                    return response.json();
+                })
+                .then(data => {
+                    quoteElement.innerHTML = 
+                        `"${data.quote}" <br><small class="text-muted">- ${data.author}</small>`;
+                })
+                .catch(error => {
+                    console.error('Quote fetch error:', error);
+                    quoteElement.innerHTML = 
+                        'Inspirational quotes unavailable. Keep building!';
+                    quoteElement.classList.add('text-muted');
+                });
+        });
+    </script>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+            crossorigin="anonymous"></script>
 </body>
 </html>
